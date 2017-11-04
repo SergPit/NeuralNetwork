@@ -1,12 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NeuralNetwork
+﻿namespace NeuralNetwork
 {
-    class Neuron
+    public struct Neuron
     {
+        public float bias;
+
+        public int[][] id;
+
+        public int layer;
+
+        public float[][] weights;
+
+        public Neuron(float bias, int[][] id, int layer, float[][] weights)
+        {
+            this.bias = bias;
+            this.id = id;
+            this.layer = layer;
+            this.weights = weights;
+        }
     }
 }
