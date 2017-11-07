@@ -17,6 +17,7 @@ namespace NeuralNetwork
         public Network(List<int> size)
         {
             GlobalWeights = new List<float[,]>();
+            Neurons = new List<Neuron>();
             this.Size = size;
             CreateNeurons();
         }
@@ -43,15 +44,16 @@ namespace NeuralNetwork
             float[,] weights = new float[5, neuronsCount];
             for (int i = 0; i < neuronsCount; i++)
             {
-                weights[0, i] = destinationLayer;
-                weights[1, i] = i;
-                weights[2, i] = (float)random.NextDouble();
-                weights[3, i] = originLayer;
-                weights[4, i] = neuronId;
+                weights[WeightInfo.Layer, i] = destinationLayer;
+                weights[WeightInfo.Neuron_id, i] = i;
+                weights[WeightInfo.Weight, i] = (float)random.NextDouble();
+                weights[WeightInfo.Original_Neuron_Layer, i] = originLayer;
+                weights[WeightInfo.Original_Neuron_Layer, i] = neuronId;
             }
             int[] front = { 1, 2, 3, 4 };
 
             GlobalWeights.Add(weights);
+
             return weights;
         }
     }
