@@ -29,7 +29,10 @@ namespace NeuralNetwork
             {
                 for (int neuronId = 1; neuronId <= this.Size[layer]; neuronId++)
                 {
-                    float[,] weights = CeateRandomWeightsForLayerNeurons(this.Size[layer + 1], this.Size[layer], neuronId);
+                    
+                    float[,] weights = layer < (this.Size.Count - 1)
+                        ? CeateRandomWeightsForLayerNeurons(layer+1, layer, neuronId) 
+                        : default(float[,]);
                     Neurons.Add(new Neuron((float)random.NextDouble(), neuronId, layer, weights));
                 }
             }
@@ -37,7 +40,7 @@ namespace NeuralNetwork
 
         private float[,] CeateRandomWeightsForLayerNeurons(int destinationLayer, int originLayer, int neuronId)
         {
-            int neuronsCount = Size[destinationLayer];
+            int neuronsCount = this.Size[destinationLayer];
             var random = new Random();
             // [x,]: 0 - layer, 1 - neuron id, 2 - weight, 3 - original neuron layer, 4 - original neuron id
             // [,x]: number of connections
@@ -50,11 +53,31 @@ namespace NeuralNetwork
                 weights[WeightInfo.Original_Neuron_Layer, i] = originLayer;
                 weights[WeightInfo.Original_Neuron_Layer, i] = neuronId;
             }
-            int[] front = { 1, 2, 3, 4 };
 
             GlobalWeights.Add(weights);
 
             return weights;
+        }
+
+        public void DisplayInformation()
+        {
+            Console.Write(string.Format("Neuron network layer size - {0} /n", this.Size.Count));
+            Console.Write(string.Format("Neuron counts - {0} /n", this.Size.Sum(e => e)));
+            Console.Write("Layers size:/n");
+            for (int i = 0; i < this.Size.Count; i++)
+            {
+                Console.Write(string.Format("Layer {0}:{1}/n", i, this.Size[i]));
+            }
+
+            Console.Write("Neuron matrix/n");
+
+            foreach (var neuron in Neurons)
+            {
+
+            }
+
+
+
         }
     }
 }

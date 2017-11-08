@@ -10,7 +10,8 @@ namespace NeuralNetwork
     {
         static void Main(string[] args)
         {
-            Network network = new Network(new List<int> { 1, 2, 3 });
+            Network network = new Network(new List<int> { 5, 3, 1 });
+            
             Console.ReadKey();
         }
     }
