@@ -11,7 +11,7 @@ namespace NeuralNetwork
         static void Main(string[] args)
         {
             Network network = new Network(new List<int> { 5, 3, 1 });
-            
+            network.DisplayInformation();
             Console.ReadKey();
         }
     }
