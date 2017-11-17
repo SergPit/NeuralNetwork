@@ -73,6 +73,7 @@ namespace NeuralNetwork
 
             foreach (var neuron in Neurons)
             {
+                //test
                 Console.Write("\n------\n");
                 Console.Write(string.Format("Current neuron Layer: {0}\n", neuron.layer));
                 Console.Write(string.Format("Current neuron Id: {0}\n", neuron.id));
