@@ -50,11 +50,29 @@ namespace NeuralNetwork
                 weights[WeightInfo.Original_Neuron_Layer, i] = originLayer;
                 weights[WeightInfo.Original_Neuron_Layer, i] = neuronId;
             }
-            int[] front = { 1, 2, 3, 4 };
 
             GlobalWeights.Add(weights);
 
             return weights;
+        }
+
+        public static float Sigmoid(float value)
+        {
+            return (float)(1.0 / (1.0 + Math.Pow(Math.E, -value)));
+        }
+
+        public int[] Feedforward(float[] input)
+        {
+            for (int layer = 0; layer < this.Size.Count; layer++)
+            {
+                var test = Neurons.Where(e => e.layer == layer).Select(e => e.weights).ToArray();
+
+
+                //for (int neuronId = 1; neuronId <= this.Size[layer]; neuronId++)
+                //{
+                //    input = Neurons.Where(e => e.layer == layer)
+                //}
+            }
         }
     }
 }
