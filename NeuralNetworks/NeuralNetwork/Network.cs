@@ -78,6 +78,7 @@ namespace NeuralNetwork
                 Console.Write(string.Format("Current neuron Layer: {0}\n", neuron.layer));
                 Console.Write(string.Format("Current neuron Id: {0}\n", neuron.id));
                 Console.Write(string.Format("Current neuron Bias: {0}\n", neuron.bias));
+                Console.Write(string.Format("Current neuron Value: {0}\n", neuron.value));
                 if (neuron.weights != null)
                 {
                     int rowLength = neuron.weights.GetLength(0);
@@ -120,17 +121,35 @@ namespace NeuralNetwork
             }
         }
 
-        public static float Sigmoid(float value)
+        public float Sigmoid(float value)
         {
             return (float)(1.0 / (1.0 + Math.Pow(Math.E, -value)));
         }
 
         public void Feedforward(float[] input)
         {
-            for (int layer = 0; layer < this.Size.Count; layer++)
+            var firstLayerNeyrons = this.Neurons.Where(e => e.layer == 0).ToList();
+            for (int neyronId = 0; neyronId < this.Size[0]; neyronId++)
             {
-                var test = Neurons.Where(e => e.layer == layer).Select(e => e.weights).ToArray();
+                firstLayerNeyrons[neyronId].value = input[neyronId];
+            }
 
+            for (int layer = 1; layer < this.Size.Count; layer++)
+            {
+                int previousLayer = layer - 1;
+                var curLayerNeyrons = this.Neurons.Where(e => e.layer == layer).ToList();
+                var previousLayerNeyrons = this.Neurons.Where(e => e.layer == previousLayer).ToList();
+
+                for (int curNeyronId = 0; curNeyronId < this.Size[layer]; curNeyronId++)
+                {
+                    float value = 0;
+                    for (int prevNeyronId = 0; prevNeyronId < this.Size[previousLayer]; prevNeyronId++)
+                    {
+                        value += previousLayerNeyrons[prevNeyronId].weights[WeightInfo.Neuron_id, curNeyronId] * previousLayerNeyrons[prevNeyronId].value;
+                    }
+
+                    curLayerNeyrons[curNeyronId].value = this.Sigmoid(value + curLayerNeyrons[curNeyronId].bias);
+                }
             }
         }
     }
