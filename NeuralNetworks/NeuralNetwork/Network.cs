@@ -29,7 +29,10 @@ namespace NeuralNetwork
             {
                 for (int neuronId = 1; neuronId <= this.Size[layer]; neuronId++)
                 {
-                    float[,] weights = CeateRandomWeightsForLayerNeurons(this.Size[layer + 1], this.Size[layer], neuronId);
+
+                    float[,] weights = layer < (this.Size.Count - 1)
+                        ? CeateRandomWeightsForLayerNeurons(layer + 1, layer, neuronId)
+                        : default(float[,]);
                     Neurons.Add(new Neuron((float)random.NextDouble(), neuronId, layer, weights));
                 }
             }
@@ -37,7 +40,7 @@ namespace NeuralNetwork
 
         private float[,] CeateRandomWeightsForLayerNeurons(int destinationLayer, int originLayer, int neuronId)
         {
-            int neuronsCount = Size[destinationLayer];
+            int neuronsCount = this.Size[destinationLayer];
             var random = new Random();
             // [x,]: 0 - layer, 1 - neuron id, 2 - weight, 3 - original neuron layer, 4 - original neuron id
             // [,x]: number of connections
@@ -48,12 +51,73 @@ namespace NeuralNetwork
                 weights[WeightInfo.Neuron_id, i] = i;
                 weights[WeightInfo.Weight, i] = (float)random.NextDouble();
                 weights[WeightInfo.Original_Neuron_Layer, i] = originLayer;
-                weights[WeightInfo.Original_Neuron_Layer, i] = neuronId;
+                weights[WeightInfo.Original_Neuron_Id, i] = neuronId;
             }
 
             GlobalWeights.Add(weights);
 
             return weights;
+        }
+
+        public void DisplayInformation()
+        {
+            Console.Write(string.Format("Neuron network layer size - {0} \n", this.Size.Count));
+            Console.Write(string.Format("Neuron counts - {0} \n", this.Size.Sum(e => e)));
+            Console.Write("Layers size:\n");
+            for (int i = 0; i < this.Size.Count; i++)
+            {
+                Console.Write(string.Format("Layer - {0}: Neuron count - {1}\n", i, this.Size[i]));
+            }
+
+            Console.Write("Neuron matrix\n");
+
+            foreach (var neuron in Neurons)
+            {
+                //test
+                Console.Write("\n------\n");
+                Console.Write(string.Format("Current neuron Layer: {0}\n", neuron.layer));
+                Console.Write(string.Format("Current neuron Id: {0}\n", neuron.id));
+                Console.Write(string.Format("Current neuron Bias: {0}\n", neuron.bias));
+                if (neuron.weights != null)
+                {
+                    int rowLength = neuron.weights.GetLength(0);
+                    int colLength = neuron.weights.GetLength(1);
+
+                    for (int i = 0; i < rowLength; i++)
+                    {
+                        switch (i)
+                        {
+                            case (WeightInfo.Layer):
+                                Console.Write("Layer: ");
+                                break;
+                            case (WeightInfo.Neuron_id):
+                                Console.Write("Neuron_id: ");
+                                break;
+                            case (WeightInfo.Weight):
+                                Console.Write("Weight: ");
+                                break;
+                            case (WeightInfo.Original_Neuron_Layer):
+                                Console.Write("Original_Neuron_Layer: ");
+                                break;
+                            case (WeightInfo.Original_Neuron_Id):
+                                Console.Write("Original_Neuron_Id: ");
+                                break;
+                            default:
+                                break;
+                        }
+
+                        for (int j = 0; j < colLength; j++)
+                        {
+                            Console.Write(string.Format("{0} ", neuron.weights[i, j]));
+                        }
+                        Console.Write(Environment.NewLine);
+                    }
+                }
+                else
+                {
+                    Console.Write("Neuron does not have weights\n");
+                }
+            }
         }
 
         public static float Sigmoid(float value)
