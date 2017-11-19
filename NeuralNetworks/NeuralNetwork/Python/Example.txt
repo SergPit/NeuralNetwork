@@ -1,0 +1,22 @@
+import numpy # learn more: https://python.org/pypi/numpy
+sizes = [5,4,1]
+print(sizes)
+print('biases')
+biases = [numpy.random.randn(y, 1) for y in sizes[1:]]
+print(biases)
+print(biases[0])
+weights = [numpy.random.randn(y, x) 
+                        for x, y in zip(sizes[:-1], sizes[1:])]
+print('weights')
+print(weights)
+print('--------------------')
+print(weights[0])
+print('--------------------')
+print(weights[1])
+
+print('------feedforward----------')
+for b, w in zip(biases, weights):
+  print('------b----------')
+  print(b)
+  print('------w----------')
+  print(w)

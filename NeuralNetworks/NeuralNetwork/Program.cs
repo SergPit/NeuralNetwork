@@ -10,7 +10,9 @@ namespace NeuralNetwork
     {
         static void Main(string[] args)
         {
-            Network network = new Network(new List<int> { 784, 3, 10 });
+            Network network = new Network(new List<int> { 10, 5, 1 });
+            float[] input = { 1, 0, 1, 0, 0, 0, 1, 1, 0, 0 };
+            network.Feedforward(input);
             network.DisplayInformation();
             Console.ReadKey();
         }

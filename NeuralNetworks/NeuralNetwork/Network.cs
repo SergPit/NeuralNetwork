@@ -125,17 +125,12 @@ namespace NeuralNetwork
             return (float)(1.0 / (1.0 + Math.Pow(Math.E, -value)));
         }
 
-        public int[] Feedforward(float[] input)
+        public void Feedforward(float[] input)
         {
             for (int layer = 0; layer < this.Size.Count; layer++)
             {
                 var test = Neurons.Where(e => e.layer == layer).Select(e => e.weights).ToArray();
 
-
-                //for (int neuronId = 1; neuronId <= this.Size[layer]; neuronId++)
-                //{
-                //    input = Neurons.Where(e => e.layer == layer)
-                //}
             }
         }
     }
