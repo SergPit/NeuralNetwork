@@ -12,6 +12,12 @@
 
         public float value;
 
+        public float afterTrainingDelta;
+
+        public float afterTrainingValue;
+
+        public float error;
+
         public Neuron(float bias, int id, int layer, float[,] weights)
         {
             this.bias = bias;

@@ -12,9 +12,10 @@ namespace NeuralNetwork
         {
             Network network = new Network(new List<int> { 4, 8, 4 });
             float[] input = { 1, 1, 0, 0};
-            var deviation = network.Goforward(input, input);
-            deviation.ForEach(e => Console.WriteLine(e.ToString()));
-            //network.DisplayInformation();
+            network.Goforward(input, input);
+            network.DisplayInformation();
+            network.GoBackward();
+            network.DisplayInformation();
             Console.ReadKey();
         }
     }

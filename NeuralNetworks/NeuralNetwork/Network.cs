@@ -14,23 +14,20 @@ namespace NeuralNetwork
 
         public List<Neuron> Neurons { get; set; }
 
-        public List<float> output { get; private set; }
+        public List<float> Output { get; private set; }
 
-        public List<float> input { get; private set; }
+        public float[] Input { get; private set; }
 
-        public int LustLayerNumber
-        {
-            get
-            {
-                return this.Size.Count - 1;
-            }
-        }
+        public float[] ExpectedResult { get; private set; }
+
+        public int LastLayerNumber { get; private set; }
 
         public Network(List<int> size)
         {
             GlobalWeights = new List<float[,]>();
             Neurons = new List<Neuron>();
             this.Size = size;
+            this.LastLayerNumber = this.Size.Count - 1;
             CreateNeurons();
         }
 
@@ -91,6 +88,9 @@ namespace NeuralNetwork
                 Console.Write(string.Format("Current neuron Id: {0}\n", neuron.id));
                 Console.Write(string.Format("Current neuron Bias: {0}\n", neuron.bias));
                 Console.Write(string.Format("Current neuron Value: {0}\n", neuron.value));
+                Console.Write(string.Format("Current neuron Error: {0}\n", neuron.error));
+                Console.Write(string.Format("Current neuron Error: {0}\n", neuron.afterTrainingDelta));
+                Console.Write(string.Format("Current neuron Error: {0}\n", neuron.afterTrainingValue));
                 if (neuron.weights != null)
                 {
                     int rowLength = neuron.weights.GetLength(0);
@@ -138,17 +138,19 @@ namespace NeuralNetwork
             return (float)(1.0 / (1.0 + Math.Pow(Math.E, -value)));
         }
 
-        public float sigmoid_output_to_derivative(float output)
+        public float SigmoidOutputToDerivative(float output)
         {
             return output * (1 - output);
         }
 
-        public List<float> Goforward(float[] input, float[] expectedResult)
+        public void Goforward(float[] input, float[] expectedResult)
         {
+            this.Input = input;
+            this.ExpectedResult = expectedResult;
             var firstLayerNeyrons = this.Neurons.Where(e => e.layer == 0).ToList();
             for (int neyronId = 0; neyronId < this.Size[0]; neyronId++)
             {
-                firstLayerNeyrons[neyronId].value = input[neyronId];
+                firstLayerNeyrons[neyronId].value = this.Input[neyronId];
             }
 
             for (int layer = 1; layer < this.Size.Count; layer++)
@@ -168,29 +170,43 @@ namespace NeuralNetwork
                     curLayerNeyrons[curNeyronId].value = this.Sigmoid(value + curLayerNeyrons[curNeyronId].bias);
                 }
             }
+        }
 
-            var lustLayerNeyrons = this.Neurons.Where(e => e.layer == this.LustLayerNumber).ToList();
-            List<float> deviation = new List<float>();
-
+        private void CalculateErrorForLastLayer(int layer)
+        {
+            var lustLayerNeyrons = this.Neurons.Where(e => e.layer == layer).ToList();
             for (int neyronId = 0; neyronId < lustLayerNeyrons.Count; neyronId++)
             {
-                deviation.Add(lustLayerNeyrons[neyronId].value - expectedResult[neyronId]);
+                lustLayerNeyrons[neyronId].error = lustLayerNeyrons[neyronId].value - this.ExpectedResult[neyronId];
             }
-
-            return deviation;
         }
 
         public void GoBackward()
         {
-            var lustLayerNeyrons = this.Neurons.Where(e => e.layer == this.LustLayerNumber).ToList();
+            var lustLayerNeyrons = this.Neurons.Where(e => e.layer == this.LastLayerNumber).ToList();
 
-            for (int layer = LustLayerNumber; layer > 0; layer--)
+            //calculate error for last layer
+            CalculateErrorForLastLayer(this.LastLayerNumber);
+
+            for (int layerNumber = this.LastLayerNumber; layerNumber >= 0; layerNumber--)
             {
-
-                for (int curNeyronId = 0; curNeyronId < this.Size[layer]; curNeyronId++)
+                int previousLayer = layerNumber - 1;
+                if (previousLayer<0)
                 {
-
+                    break;
                 }
+                var curLayerNeyrons = this.Neurons.Where(e => e.layer == layerNumber).ToList();
+                var previousLayerNeyrons = this.Neurons.Where(e => e.layer == previousLayer).ToList();
+
+                for (int curNeyronId = 0; curNeyronId < this.Size[layerNumber]; curNeyronId++)
+                {
+                    curLayerNeyrons[curNeyronId].afterTrainingDelta = curLayerNeyrons[curNeyronId].error * this.SigmoidOutputToDerivative(curLayerNeyrons[curNeyronId].value);
+                    for (int prevNeyronId = 0; prevNeyronId < this.Size[previousLayer]; prevNeyronId++)
+                    {
+                        previousLayerNeyrons[prevNeyronId].weights[WeightInfo.Neuron_id, curNeyronId] = 
+                            previousLayerNeyrons[prevNeyronId].weights[WeightInfo.Neuron_id, curNeyronId] * curLayerNeyrons[curNeyronId].afterTrainingDelta;
+                    }
+                }     
             }
         }
     }
