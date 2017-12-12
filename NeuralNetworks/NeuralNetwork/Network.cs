@@ -33,7 +33,6 @@ namespace NeuralNetwork
 
         private void CreateNeurons()
         {
-            var random = new Random();
             for (int layer = 0; layer < this.Size.Count; layer++)
             {
                 for (int neuronId = 1; neuronId <= this.Size[layer]; neuronId++)
@@ -42,7 +41,7 @@ namespace NeuralNetwork
                     float[,] weights = layer < (this.Size.Count - 1)
                         ? CeateRandomWeightsForLayerNeurons(layer + 1, layer, neuronId)
                         : default(float[,]);
-                    Neurons.Add(new Neuron((float)random.NextDouble(), neuronId, layer, weights));
+                    Neurons.Add(new Neuron(Helpers.GetRundomFloat(), neuronId, layer, weights));
                 }
             }
         }
@@ -50,7 +49,6 @@ namespace NeuralNetwork
         private float[,] CeateRandomWeightsForLayerNeurons(int destinationLayer, int originLayer, int neuronId)
         {
             int neuronsCount = this.Size[destinationLayer];
-            var random = new Random();
             // [x,]: 0 - layer, 1 - neuron id, 2 - weight, 3 - original neuron layer, 4 - original neuron id
             // [,x]: number of connections
             float[,] weights = new float[5, neuronsCount];
@@ -58,7 +56,7 @@ namespace NeuralNetwork
             {
                 weights[WeightInfo.Layer, i] = destinationLayer;
                 weights[WeightInfo.Neuron_id, i] = i;
-                weights[WeightInfo.Weight, i] = (float)random.NextDouble();
+                weights[WeightInfo.Weight, i] = Helpers.GetRundomFloat();
                 weights[WeightInfo.Original_Neuron_Layer, i] = originLayer;
                 weights[WeightInfo.Original_Neuron_Id, i] = neuronId;
             }
@@ -130,6 +128,25 @@ namespace NeuralNetwork
                 {
                     Console.Write("Neuron does not have weights\n");
                 }
+            }
+        }
+
+        public void DisplayInputOutpuError()
+        {
+            var firstLayerNeyrons = this.Neurons.Where(e => e.layer == 0).ToList();
+            var lustLayerNeyrons = this.Neurons.Where(e => e.layer == this.LastLayerNumber).ToList();
+
+            Console.Write("Input:");
+            foreach (var neuron in firstLayerNeyrons)
+            {
+                Console.Write(" " + neuron.value.ToString()); 
+            }
+            Console.Write(Environment.NewLine);
+
+            Console.Write("Output and error:\n");
+            foreach (var neuron in lustLayerNeyrons)
+            {
+                Console.WriteLine(string.Format("Output - {0}, Error - {1}", neuron.value.ToString(), neuron.error.ToString()));
             }
         }
 
@@ -208,6 +225,6 @@ namespace NeuralNetwork
                     }
                 }     
             }
-        }
+        }     
     }
 }

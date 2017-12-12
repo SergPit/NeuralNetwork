@@ -11,11 +11,9 @@ namespace NeuralNetwork
         static void Main(string[] args)
         {
             Network network = new Network(new List<int> { 4, 8, 4 });
+            Education education = new Education();
             float[] input = { 1, 1, 0, 0};
-            network.Goforward(input, input);
-            network.DisplayInformation();
-            network.GoBackward();
-            network.DisplayInformation();
+            education.SimpleEducation(input, 10, network);
             Console.ReadKey();
         }
     }
