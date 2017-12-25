@@ -42,8 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\Sigmoid.cs" />
+    <Compile Include="Algorithms\Tanh.cs" />
     <Compile Include="Education.cs" />
     <Compile Include="Helpers.cs" />
+    <Compile Include="Infratstracture\IAlgorithm.cs" />
+    <Compile Include="NeuronCoordinate.cs" />
     <Compile Include="WeightInfo.cs" />
     <Compile Include="GeneralSettings.cs" />
     <Compile Include="Network.cs" />

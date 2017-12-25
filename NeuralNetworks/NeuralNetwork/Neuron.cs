@@ -1,30 +1,32 @@
-﻿namespace NeuralNetwork
+﻿using System.Collections.Generic;
+
+namespace NeuralNetwork
 {
     public class Neuron
     {
-        public float bias;
+        public float Bias { get; set; }
 
-        public int id;
+        public int Id { get; set; }
 
-        public int layer;
+        public int Layer { get; set; }
 
-        public float[,] weights;
+        public Dictionary<NeuronCoordinate, float> WeightsByCoordinates { get; set; }
 
-        public float value;
+        public float Value { get; set; }
 
-        public float afterTrainingDelta;
+        public float AfterTrainingDelta { get; set; }
 
-        public float afterTrainingValue;
+        public float AfterTrainingValue { get; set; }
 
-        public float error;
+        public float Error { get; set; }
 
-        public Neuron(float bias, int id, int layer, float[,] weights)
+        public Neuron(float bias, int id, int layer, Dictionary<NeuronCoordinate, float> coordinates)
         {
-            this.bias = bias;
-            this.id = id;
-            this.layer = layer;
-            this.weights = weights; 
-            this.value = 0;
+            this.Bias = bias;
+            this.Id = id;
+            this.Layer = layer;
+            this.WeightsByCoordinates = coordinates; 
+            this.Value = 0;
         }
     }
 }

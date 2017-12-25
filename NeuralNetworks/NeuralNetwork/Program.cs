@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeuralNetwork.Algorithms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,16 @@ namespace NeuralNetwork
     {
         static void Main(string[] args)
         {
-            Network network = new Network(new List<int> { 4, 8, 4 });
+            float[] input = { 1, 0, 1, 0 }, output = { 0, 1 };
             Education education = new Education();
-            float[] input = { 1, 1, 0, 0};
-            education.SimpleEducation(input, 10, network);
+            IAlgorithm algorithm = new Tanh();
+
+            Network network = new Network(new List<int> { 4, 3, 2 }, algorithm);
+            education.SimpleEducation(input, 100, network, output, 1);
+
+            network = new Network(new List<int> { 4, 3, 2 }, algorithm);
+            education.SimpleEducation(input, 100, network, output, 5);
+
             Console.ReadKey();
         }
     }

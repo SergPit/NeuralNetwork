@@ -1,0 +1,8 @@
+D:\NeuralNetworks\NeuralNetworks\NeuralNetworks\UnitTests\bin\Debug\UnitTests.dll
+D:\NeuralNetworks\NeuralNetworks\NeuralNetworks\UnitTests\bin\Debug\UnitTests.pdb
+D:\NeuralNetworks\NeuralNetworks\NeuralNetworks\UnitTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+D:\NeuralNetworks\NeuralNetworks\NeuralNetworks\UnitTests\bin\Debug\NeuralNetwork.exe
+D:\NeuralNetworks\NeuralNetworks\NeuralNetworks\UnitTests\bin\Debug\NeuralNetwork.pdb
+D:\NeuralNetworks\NeuralNetworks\NeuralNetworks\UnitTests\obj\Debug\UnitTests.csprojResolveAssemblyReference.cache
+D:\NeuralNetworks\NeuralNetworks\NeuralNetworks\UnitTests\obj\Debug\UnitTests.dll
+D:\NeuralNetworks\NeuralNetworks\NeuralNetworks\UnitTests\obj\Debug\UnitTests.pdb
