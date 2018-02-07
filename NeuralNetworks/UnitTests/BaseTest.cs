@@ -16,10 +16,10 @@ namespace UnitTests
             Network testNetwork = InitializeNetwork();
             float[] input = { 1, 0, 1, 0 };
             float[] expected = { 0 };
-            testNetwork.Goforward(input, expected);
+            testNetwork.GoForward(input, expected);
             var firstIteration = testNetwork.Neurons.Where(e => e.Layer == testNetwork.LastLayerNumber).First().Value;
-            testNetwork.GoBackward();
-            testNetwork.Goforward(input, expected);
+            testNetwork.GoBackward(1);
+            testNetwork.GoForward(input, expected);
             var secondIteration = testNetwork.Neurons.Where(e => e.Layer == testNetwork.LastLayerNumber).First().Value;
         }
 

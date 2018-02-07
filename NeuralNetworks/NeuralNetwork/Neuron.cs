@@ -14,7 +14,7 @@ namespace NeuralNetwork
 
         public float Value { get; set; }
 
-        public float AfterTrainingDelta { get; set; }
+        //public float AfterTrainingDelta { get; set; }
 
         public float AfterTrainingValue { get; set; }
 

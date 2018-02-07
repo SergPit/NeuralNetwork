@@ -47,9 +47,11 @@
     <Compile Include="Education.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Infratstracture\IAlgorithm.cs" />
+    <Compile Include="MNIST\DigitImage.cs" />
+    <Compile Include="MNIST\ImageAsBytes.cs" />
+    <Compile Include="MNIST\Mnist.cs" />
+    <Compile Include="MNIST\MnistForNetwork.cs" />
     <Compile Include="NeuronCoordinate.cs" />
-    <Compile Include="WeightInfo.cs" />
-    <Compile Include="GeneralSettings.cs" />
     <Compile Include="Network.cs" />
     <Compile Include="Neuron.cs" />
     <Compile Include="Program.cs" />
@@ -57,9 +59,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Draw\digits.html" />
+    <Content Include="Scripts\digits.js" />
+    <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Python\Example.txt" />
+    <Content Include="Scripts\knockout-3.4.2.debug.js" />
+    <Content Include="Scripts\knockout-3.4.2.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Sources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
